@@ -1,0 +1,29 @@
+type Query {
+    users: [User],
+    products: [Product],
+    productsByItemKey(itemKey:String):Product
+  }
+  type Mutation {
+    createUser(name: String): User,
+    updateProduct(itemKey:String!,desc: String,price: String,image:String,variants: [String] ): Product,
+    deleteProductByItemKey(itemKey:String!): DeleteResDto
+  }
+  type Subscription{
+    productUpserted:Product,
+    productDeleted: Product
+  }
+  type User {
+    name: String
+  }
+  type Product{
+    itemKey: String,
+    desc: String,
+    price: String,
+    customCut: String,
+    variants:[String],
+    image:String
+  }
+  type DeleteResDto{
+    status:Boolean,
+    products: [Product]
+  }

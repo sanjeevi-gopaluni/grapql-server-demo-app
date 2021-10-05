@@ -4,19 +4,25 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-     "start":"npx nodemon server.js"
+    "start": "npx nodemon server.js"
   },
   "dependencies": {
     "apollo-boost": "^0.1.27",
+    "apollo-server-express": "^2",
+    "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-graphql": "^0.7.1",
     "graphql": "^14.1.1",
     "graphql-playground-middleware-express": "^1.7.9",
+    "graphql-server-express": "^1.4.0",
+    "graphql-subscriptions": "^1.0.0",
     "graphql-tag": "^2.10.1",
+    "graphql-tools": "^4.0.1",
     "react": "^16.7.0",
     "react-apollo": "^2.4.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "subscriptions-transport-ws": "^0.9.15"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
