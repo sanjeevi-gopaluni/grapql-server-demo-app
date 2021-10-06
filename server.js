@@ -1,42 +1,23 @@
-
 const express = require('express');
-const {
-  graphqlExpress,
-  graphiqlExpress,
-} = require('graphql-server-express');
-const { createServer } = require('http');
-const { SubscriptionServer } = require('subscriptions-transport-ws');
-const { execute, subscribe } = require('graphql');
-var cors = require('cors')
-const bodyParser = require('body-parser');
-const PORT = 9000;
-const app = new express();
-const { schema } = require('./src/schema');
+const ApolloServer = require('apollo-server-express').ApolloServer;
+const cors = require('cors');
+const http = require('http')
+const {schema,typeDefs,resolvers} = require('./src/schema');
 
- 
-// Express stuff
-app.use(cors())
-app.use(
-  '/graphql', bodyParser.json(),
-  graphqlExpress({
-    schema
-  })
-);
+const app = express();
 
-app.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql',
-  subscriptionsEndpoint: `ws://localhost:${PORT}/graphql`
-}));
-const ws = createServer(app);
+app.use(cors());
 
-ws.listen(PORT, () => {
-  console.log(`GraphQL Server is now running on http://localhost:${PORT}`);
-new SubscriptionServer({
-    execute,
-    subscribe,
-    schema
-  }, {
-    server: ws,
-    path: '/graphql',
-  });
+const server = new ApolloServer({
+  typeDefs: typeDefs,
+  resolvers: resolvers
+});
+
+server.applyMiddleware({ app, path: '/graphql' });
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
+// httpServer.listen();
+
+httpServer.listen({ port: 9000 }, () => {
+  console.log('Apollo Server on http://localhost:9000/graphql');
 });
